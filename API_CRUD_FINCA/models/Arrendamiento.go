@@ -34,6 +34,12 @@ func init() {
 // last inserted Id on success.
 func AddArrendamiento(m *Arrendamiento) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }
@@ -131,6 +137,10 @@ func GetAllArrendamiento(query map[string]string, fields []string, sortby []stri
 // the record to be updated doesn't exist
 func UpdateArrendamientoById(m *Arrendamiento) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Arrendamiento{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

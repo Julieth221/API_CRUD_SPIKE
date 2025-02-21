@@ -32,6 +32,10 @@ func init() {
 // last inserted Id on success.
 func AddParcela(m *Parcela) (id int64, err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -129,6 +133,10 @@ func GetAllParcela(query map[string]string, fields []string, sortby []string, or
 // the record to be updated doesn't exist
 func UpdateParcelaById(m *Parcela) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Parcela{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

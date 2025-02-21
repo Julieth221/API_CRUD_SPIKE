@@ -34,6 +34,12 @@ func init() {
 // last inserted Id on success.
 func AddFinca(m *Finca) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }
@@ -131,6 +137,10 @@ func GetAllFinca(query map[string]string, fields []string, sortby []string, orde
 // the record to be updated doesn't exist
 func UpdateFincaById(m *Finca) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Finca{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

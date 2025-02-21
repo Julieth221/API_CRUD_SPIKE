@@ -33,6 +33,12 @@ func init() {
 // last inserted Id on success.
 func AddGeolocalizacion(m *Geolocalizacion) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }
@@ -130,6 +136,10 @@ func GetAllGeolocalizacion(query map[string]string, fields []string, sortby []st
 // the record to be updated doesn't exist
 func UpdateGeolocalizacionById(m *Geolocalizacion) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Geolocalizacion{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
