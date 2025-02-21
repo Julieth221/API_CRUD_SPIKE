@@ -15,7 +15,7 @@ type CategoriaInsumo struct {
 	Nombre            string    `orm:"column(nombre)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)auto_now"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *CategoriaInsumo) TableName() string {
@@ -30,6 +30,10 @@ func init() {
 // last inserted Id on success.
 func AddCategoriaInsumo(m *CategoriaInsumo) (id int64, err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)	
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }

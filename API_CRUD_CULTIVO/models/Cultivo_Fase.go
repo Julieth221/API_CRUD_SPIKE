@@ -32,6 +32,10 @@ func init() {
 // last inserted Id on success.
 func AddCultivoFase(m *CultivoFase) (id int64, err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)	
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
