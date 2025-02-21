@@ -11,15 +11,15 @@ import (
 )
 
 type DetallesCultivo struct {
-	Id                        int                      `orm:"column(id_detalles_cultivo);pk"`
+	Id                        int                      `orm:"column(id_detalles_cultivo);pk; auto"`
 	FkDetallesCultivoRegistro *RegistroCultivo         `orm:"column(fk_detalles_cultivo_registro);rel(fk)"`
 	FkEstadoFenologicoCultivo *EstadoFenologicoCultivo `orm:"column(fk_estado_fenologico_cultivo);rel(fk)"`
 	FkMetodoSiembra           *MetodoSiembra           `orm:"column(fk_metodo_siembra);rel(fk)"`
 	DensidadSiembra           float64                  `orm:"column(densidad_siembra)"`
 	AreaSembrada              float64                  `orm:"column(area_sembrada)"`
 	Activo                    bool                     `orm:"column(activo)"`
-	FechaCreacion             time.Time                `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion         time.Time                `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion             time.Time                `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion         time.Time                `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *DetallesCultivo) TableName() string {

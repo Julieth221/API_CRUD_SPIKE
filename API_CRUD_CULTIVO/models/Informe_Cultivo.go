@@ -11,7 +11,7 @@ import (
 )
 
 type InformeCultivo struct {
-	Id                   int                 `orm:"column(id_informe_cultivo);pk"`
+	Id                   int                 `orm:"column(id_informe_cultivo);pk; auto"`
 	FkInformeCultivo     *RegistroCultivo    `orm:"column(fk_informe_cultivo);rel(fk)"`
 	FkTipoInformeCultivo *TipoInformeCultivo `orm:"column(fk_tipo_informe_cultivo);rel(fk)"`
 	RendimientoEstimado  string              `orm:"column(rendimiento_estimado);type(json)"`
@@ -19,8 +19,8 @@ type InformeCultivo struct {
 	FechaInicio          time.Time           `orm:"column(fecha_inicio);type(date)"`
 	FechaFin             time.Time           `orm:"column(fecha_fin);type(date)"`
 	Activo               bool                `orm:"column(activo)"`
-	FechaCreacion        time.Time           `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion    time.Time           `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion        time.Time           `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion    time.Time           `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *InformeCultivo) TableName() string {

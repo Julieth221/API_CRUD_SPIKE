@@ -11,13 +11,13 @@ import (
 )
 
 type InfoFaseCultivo struct {
-	Id                  int          `orm:"column(id_info_fase_cultivo);pk"`
+	Id                  int          `orm:"column(id_info_fase_cultivo);pk; auto"`
 	FkInfoFaseCultivo   *FaseCultivo `orm:"column(fk_info_fase_cultivo);rel(fk)"`
 	CaracteristicasFase string       `orm:"column(caracteristicas_fase)"`
 	DescripcionFase     string       `orm:"column(descripcion_fase)"`
 	Activo              bool         `orm:"column(activo)"`
-	FechaCreacion       time.Time    `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion   time.Time    `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion       time.Time    `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion   time.Time    `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *InfoFaseCultivo) TableName() string {

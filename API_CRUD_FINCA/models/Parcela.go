@@ -11,13 +11,13 @@ import (
 )
 
 type Parcela struct {
-	Id                int       `orm:"column(id_parcela);pk"`
+	Id                int       `orm:"column(id_parcela);pk; auto"`
 	FkFincaParcela    *Finca    `orm:"column(fk_finca_parcela);rel(fk)"`
 	NombreParcela     string    `orm:"column(nombre_parcela)"`
 	TamañoParcela     float64   `orm:"column(tamaño_parcela)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *Parcela) TableName() string {

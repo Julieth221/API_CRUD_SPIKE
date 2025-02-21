@@ -11,15 +11,15 @@ import (
 )
 
 type Finca struct {
-	Id                int        `orm:"column(id_finca);pk"`
+	Id                int        `orm:"column(id_finca);pk; auto"`
 	FkFinca           *TipoSuelo `orm:"column(fk_finca);rel(fk)"`
 	Nombre            string     `orm:"column(nombre)"`
 	AreaTotal         float64    `orm:"column(area_total)"`
 	TotalParcelas     float64    `orm:"column(total_parcelas)"`
 	TamañoParcelas    float64    `orm:"column(tamaño_parcelas)"`
 	Activo            bool       `orm:"column(activo)"`
-	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *Finca) TableName() string {
