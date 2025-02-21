@@ -11,11 +11,11 @@ import (
 )
 
 type TipoArroz struct {
-	Id                int       `orm:"column(id_tipo_arroz);pk"`
+	Id                int       `orm:"column(id_tipo_arroz);pk;auto"`
 	Nombre            string    `orm:"column(nombre)"`
-	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	Activo            bool      `orm:"column(activo);default(true)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *TipoArroz) TableName() string {
@@ -30,6 +30,12 @@ func init() {
 // last inserted Id on success.
 func AddTipoArroz(m *TipoArroz) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }

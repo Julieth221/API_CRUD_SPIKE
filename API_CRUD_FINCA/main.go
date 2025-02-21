@@ -3,6 +3,8 @@ package main
 import (
 	_ "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_FINCA/routers"
 
+	"github.com/udistrital/utils_oas/customerrorv2"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/lib/pq"
@@ -14,5 +16,6 @@ func main() {
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}
+	beego.ErrorController(&customerrorv2.CustomErrorController{})
 	beego.Run()
 }
