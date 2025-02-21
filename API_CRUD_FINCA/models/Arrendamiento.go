@@ -11,15 +11,15 @@ import (
 )
 
 type Arrendamiento struct {
-	Id                       int       `orm:"column(id_arrendamiento);pk"`
+	Id                       int       `orm:"column(id_arrendamiento);pk; auto"`
 	FkArrendamientoFinca     *Finca    `orm:"column(fk_arrendamiento_finca);rel(fk)"`
 	FkArrendatamientoParcela *Parcela  `orm:"column(fk_arrendatamiento_parcela);rel(fk)"`
 	FechaInicio              time.Time `orm:"column(fecha_inicio);type(date)"`
 	FechaFin                 time.Time `orm:"column(fecha_fin);type(date)"`
 	Valor                    string    `orm:"column(valor);null"`
 	Activo                   bool      `orm:"column(activo)"`
-	FechaCreacion            time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion        time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion            time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion        time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *Arrendamiento) TableName() string {

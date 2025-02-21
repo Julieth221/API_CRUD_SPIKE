@@ -11,13 +11,13 @@ import (
 )
 
 type FincaParcela struct {
-	Id                int              `orm:"column(id_parcela_finca);pk"`
+	Id                int              `orm:"column(id_parcela_finca);pk; auto"`
 	FkFincaParcela    *Finca           `orm:"column(fk_finca_parcela);rel(fk)"`
 	FkParcelaFinca    *Parcela         `orm:"column(fk_parcela_finca);rel(fk)"`
 	FkGeolocalizacion *Geolocalizacion `orm:"column(fk_geolocalizacion);rel(fk)"`
 	Activo            bool             `orm:"column(activo)"`
-	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *FincaParcela) TableName() string {

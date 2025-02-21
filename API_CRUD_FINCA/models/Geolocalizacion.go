@@ -11,14 +11,14 @@ import (
 )
 
 type Geolocalizacion struct {
-	Id                int       `orm:"column(id_geolocalizacion);pk"`
+	Id                int       `orm:"column(id_geolocalizacion);pk; auto"`
 	LatitudInicial    string    `orm:"column(latitud_inicial)"`
 	LongitudInicial   string    `orm:"column(longitud_inicial)"`
 	LatitudFinal      string    `orm:"column(latitud_final)"`
 	LongitudFinal     string    `orm:"column(longitud_final)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion string    `orm:"column(fecha_modificacion)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion string    `orm:"column(fecha_modificacion); auto_now"`
 }
 
 func (t *Geolocalizacion) TableName() string {
