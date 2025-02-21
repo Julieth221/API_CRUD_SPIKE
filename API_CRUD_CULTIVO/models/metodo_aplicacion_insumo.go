@@ -30,6 +30,12 @@ func init() {
 // last inserted Id on success.
 func AddMetodoAplicacionInsumo(m *MetodoAplicacionInsumo) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }
@@ -127,6 +133,10 @@ func GetAllMetodoAplicacionInsumo(query map[string]string, fields []string, sort
 // the record to be updated doesn't exist
 func UpdateMetodoAplicacionInsumoById(m *MetodoAplicacionInsumo) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := MetodoAplicacionInsumo{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -131,6 +131,10 @@ func GetAllInsumo(query map[string]string, fields []string, sortby []string, ord
 // the record to be updated doesn't exist
 func UpdateInsumoById(m *Insumo) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Insumo{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

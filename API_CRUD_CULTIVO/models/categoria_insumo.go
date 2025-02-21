@@ -11,10 +11,10 @@ import (
 )
 
 type CategoriaInsumo struct {
-	Id                int       `orm:"column(id_categoria_insumo);pk"`
+	Id                int       `orm:"column(id_categoria_insumo);pk;auto"`
 	Nombre            string    `orm:"column(nombre)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
 }
 
@@ -127,6 +127,10 @@ func GetAllCategoriaInsumo(query map[string]string, fields []string, sortby []st
 // the record to be updated doesn't exist
 func UpdateCategoriaInsumoById(m *CategoriaInsumo) (err error) {
 	o := orm.NewOrm()
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := CategoriaInsumo{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

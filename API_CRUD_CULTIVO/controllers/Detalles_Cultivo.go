@@ -61,7 +61,7 @@ func (c *DetallesCultivoController) GetOne() {
 	id, _ := strconv.Atoi(idStr)
 	v, err := models.GetDetallesCultivoById(id)
 	if err != nil {
-		c.Data["mesaage"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
+		c.Data["message"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
 		c.Abort("404")
 	} else {
 		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": v}

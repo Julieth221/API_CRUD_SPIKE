@@ -126,7 +126,7 @@ func (c *CategoriaInsumoController) GetAll() {
 
 	l, err := models.GetAllCategoriaInsumo(query, fields, sortby, order, offset, limit)
 	if err != nil {
-		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
+		c.Data["message"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
 		c.Abort("404")
 	} else {
 		if l == nil {
