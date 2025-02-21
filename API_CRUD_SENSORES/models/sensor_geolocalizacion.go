@@ -11,12 +11,12 @@ import (
 )
 
 type SensorGeolocalizacion struct {
-	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk"`
+	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk;auto"`
 	FkSensor                *Sensor                `orm:"column(fk_sensor);rel(fk)"`
 	FkGeolocalizacionSensor *GeolocalizacionSensor `orm:"column(fk_geolocalizacion_sensor);rel(fk)"`
 	Activo                  bool                   `orm:"column(activo)"`
-	FechaCreacion           time.Time              `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion       time.Time              `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion           time.Time              `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion       time.Time              `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *SensorGeolocalizacion) TableName() string {
@@ -31,6 +31,9 @@ func init() {
 // last inserted Id on success.
 func AddSensorGeolocalizacion(m *SensorGeolocalizacion) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +131,9 @@ func GetAllSensorGeolocalizacion(query map[string]string, fields []string, sortb
 // the record to be updated doesn't exist
 func UpdateSensorGeolocalizacionById(m *SensorGeolocalizacion) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := SensorGeolocalizacion{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

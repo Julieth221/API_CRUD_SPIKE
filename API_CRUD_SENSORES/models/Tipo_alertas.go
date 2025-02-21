@@ -11,11 +11,11 @@ import (
 )
 
 type TipoAlertas struct {
-	Id                int       `orm:"column(id_tipo_alerta);pk"`
+	Id                int       `orm:"column(id_tipo_alerta);pk;auto"`
 	NombreAlerta      string    `orm:"column(nombre_alerta)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 	Descripcion       string    `orm:"column(descripcion);null"`
 }
 
@@ -31,6 +31,9 @@ func init() {
 // last inserted Id on success.
 func AddTipoAlertas(m *TipoAlertas) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +131,9 @@ func GetAllTipoAlertas(query map[string]string, fields []string, sortby []string
 // the record to be updated doesn't exist
 func UpdateTipoAlertasById(m *TipoAlertas) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := TipoAlertas{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

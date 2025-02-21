@@ -11,11 +11,11 @@ import (
 )
 
 type Credenciales struct {
-	Id                int       `orm:"column(id_credenciales);pk"`
+	Id                int       `orm:"column(id_credenciales);pk;auto"`
 	Contraseña        string    `orm:"column(contraseña)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *Credenciales) TableName() string {
@@ -30,6 +30,9 @@ func init() {
 // last inserted Id on success.
 func AddCredenciales(m *Credenciales) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -127,6 +130,9 @@ func GetAllCredenciales(query map[string]string, fields []string, sortby []strin
 // the record to be updated doesn't exist
 func UpdateCredencialesById(m *Credenciales) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Credenciales{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

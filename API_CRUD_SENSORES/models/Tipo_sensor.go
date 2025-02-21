@@ -11,11 +11,11 @@ import (
 )
 
 type TipoSensor struct {
-	Id                int       `orm:"column(id_tipo_sensor);pk"`
+	Id                int       `orm:"column(id_tipo_sensor);pk;auto"`
 	NombreTipoSensor  string    `orm:"column(nombre_tipo_sensor);null"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 	Descripcion       string    `orm:"column(descripcion)"`
 }
 
@@ -31,6 +31,9 @@ func init() {
 // last inserted Id on success.
 func AddTipoSensor(m *TipoSensor) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +131,9 @@ func GetAllTipoSensor(query map[string]string, fields []string, sortby []string,
 // the record to be updated doesn't exist
 func UpdateTipoSensorById(m *TipoSensor) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := TipoSensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -11,12 +11,12 @@ import (
 )
 
 type Roles_Usuario struct {
-	Id                int       `orm:"column(id_roles_usuario);pk"`
+	Id                int       `orm:"column(id_roles_usuario);pk;auto"`
 	FkUsuarioRoles    *Usuario  `orm:"column(fk_usuario_roles);rel(fk)"`
 	FkRolesUsuario    *Roles    `orm:"column(fk_roles_usuario);rel(fk)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *Roles_Usuario) TableName() string {
@@ -31,6 +31,9 @@ func init() {
 // last inserted Id on success.
 func AddRoles_Usuario(m *Roles_Usuario) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +131,9 @@ func GetAllRoles_Usuario(query map[string]string, fields []string, sortby []stri
 // the record to be updated doesn't exist
 func UpdateRoles_UsuarioById(m *Roles_Usuario) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Roles_Usuario{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

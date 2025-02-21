@@ -11,13 +11,13 @@ import (
 )
 
 type LecturaSensor struct {
-	Id                int       `orm:"column(id_lectura_sensor);pk"`
+	Id                int       `orm:"column(id_lectura_sensor);pk;auto"`
 	FechaLectura      time.Time `orm:"column(fecha_lectura);type(timestamp with time zone)"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	DatosSensor       string    `orm:"column(datos_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *LecturaSensor) TableName() string {
@@ -32,6 +32,9 @@ func init() {
 // last inserted Id on success.
 func AddLecturaSensor(m *LecturaSensor) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -129,6 +132,9 @@ func GetAllLecturaSensor(query map[string]string, fields []string, sortby []stri
 // the record to be updated doesn't exist
 func UpdateLecturaSensorById(m *LecturaSensor) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := LecturaSensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

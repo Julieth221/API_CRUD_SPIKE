@@ -11,14 +11,14 @@ import (
 )
 
 type AlertasHistorial struct {
-	Id                int       `orm:"column(id_alerta_historial);pk"`
+	Id                int       `orm:"column(id_alerta_historial);pk;auto"`
 	IdAlerta          *Alertas  `orm:"column(id_alerta);rel(fk)"`
 	FechaAlerta       time.Time `orm:"column(fecha_alerta);type(timestamp with time zone)"`
 	Activo            bool      `orm:"column(activo)"`
 	Estado            bool      `orm:"column(estado)"`
 	Descripcion       string    `orm:"column(descripcion);null"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *AlertasHistorial) TableName() string {
@@ -33,6 +33,11 @@ func init() {
 // last inserted Id on success.
 func AddAlertasHistorial(m *AlertasHistorial) (id int64, err error) {
 	o := orm.NewOrm()
+
+	if !m.Activo {
+		m.Activo = true
+	}
+
 	id, err = o.Insert(m)
 	return
 }
@@ -130,6 +135,9 @@ func GetAllAlertasHistorial(query map[string]string, fields []string, sortby []s
 // the record to be updated doesn't exist
 func UpdateAlertasHistorialById(m *AlertasHistorial) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := AlertasHistorial{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -11,13 +11,13 @@ import (
 )
 
 type Sensor struct {
-	Id                int         `orm:"column(id_sensor);pk"`
+	Id                int         `orm:"column(id_sensor);pk;auto"`
 	NombreSensor      string      `orm:"column(nombre_sensor)"`
 	FkTipoSensor      *TipoSensor `orm:"column(fk_tipo_sensor);rel(fk)"`
 	Activo            bool        `orm:"column(activo)"`
-	FechaInstalacion  time.Time   `orm:"column(fecha_instalacion);type(timestamp with time zone)"`
-	FechaCreacion     time.Time   `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time   `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaInstalacion  time.Time   `orm:"column(fecha_instalacion);type(timestamp with time zone);auto_now_add"`
+	FechaCreacion     time.Time   `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time   `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *Sensor) TableName() string {
@@ -32,6 +32,9 @@ func init() {
 // last inserted Id on success.
 func AddSensor(m *Sensor) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -129,6 +132,9 @@ func GetAllSensor(query map[string]string, fields []string, sortby []string, ord
 // the record to be updated doesn't exist
 func UpdateSensorById(m *Sensor) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Sensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

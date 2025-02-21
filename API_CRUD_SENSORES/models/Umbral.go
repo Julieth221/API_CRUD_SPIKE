@@ -11,13 +11,13 @@ import (
 )
 
 type Umbral struct {
-	Id                int       `orm:"column(id_umbral);pk"`
+	Id                int       `orm:"column(id_umbral);pk;auto"`
 	DatosSensor       string    `orm:"column(datos_sensor);type(json);null"`
 	UmbralMinimo      float64   `orm:"column(umbral_minimo)"`
 	UmbralMaximo      float64   `orm:"column(umbral_maximo)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *Umbral) TableName() string {
@@ -32,6 +32,9 @@ func init() {
 // last inserted Id on success.
 func AddUmbral(m *Umbral) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -129,6 +132,9 @@ func GetAllUmbral(query map[string]string, fields []string, sortby []string, ord
 // the record to be updated doesn't exist
 func UpdateUmbralById(m *Umbral) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Umbral{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

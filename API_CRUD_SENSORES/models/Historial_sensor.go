@@ -11,13 +11,13 @@ import (
 )
 
 type HistorialSensor struct {
-	Id                int       `orm:"column(id_historial_sensor);pk"`
+	Id                int       `orm:"column(id_historial_sensor);pk;auto"`
 	ValorSensor       string    `orm:"column(valor_sensor);type(json)"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaRegistro     time.Time `orm:"column(fecha_registro);type(timestamp with time zone)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaRegistro     time.Time `orm:"column(fecha_registro);type(timestamp with time zone);auto_now_add"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *HistorialSensor) TableName() string {
@@ -32,6 +32,9 @@ func init() {
 // last inserted Id on success.
 func AddHistorialSensor(m *HistorialSensor) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -129,6 +132,9 @@ func GetAllHistorialSensor(query map[string]string, fields []string, sortby []st
 // the record to be updated doesn't exist
 func UpdateHistorialSensorById(m *HistorialSensor) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := HistorialSensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

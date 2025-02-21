@@ -33,6 +33,9 @@ func init() {
 // last inserted Id on success.
 func AddUsuario(m *Usuario) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -130,6 +133,9 @@ func GetAllUsuario(query map[string]string, fields []string, sortby []string, or
 // the record to be updated doesn't exist
 func UpdateUsuarioById(m *Usuario) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := Usuario{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

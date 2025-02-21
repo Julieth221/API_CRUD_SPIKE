@@ -11,12 +11,12 @@ import (
 )
 
 type PruebaSensor struct {
-	Id                int       `orm:"column(id_prueba_sensor);pk"`
+	Id                int       `orm:"column(id_prueba_sensor);pk;auto"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	ResultadoSensor   string    `orm:"column(resultado_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);;auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);;auto_now"`
 }
 
 func (t *PruebaSensor) TableName() string {
@@ -31,6 +31,9 @@ func init() {
 // last inserted Id on success.
 func AddPruebaSensor(m *PruebaSensor) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +131,9 @@ func GetAllPruebaSensor(query map[string]string, fields []string, sortby []strin
 // the record to be updated doesn't exist
 func UpdatePruebaSensorById(m *PruebaSensor) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := PruebaSensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
