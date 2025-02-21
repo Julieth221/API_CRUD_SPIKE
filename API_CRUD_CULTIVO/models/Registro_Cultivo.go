@@ -11,14 +11,14 @@ import (
 )
 
 type RegistroCultivo struct {
-	Id                int        `orm:"column(id_registro_cultivo);pk"`
+	Id                int        `orm:"column(id_registro_cultivo);pk; auto"`
 	FkTipoArroz       *TipoArroz `orm:"column(fk_tipo_arroz);rel(fk)"`
 	Nombre            string     `orm:"column(nombre)"`
 	FechaSiembra      time.Time  `orm:"column(fecha_siembra);type(date)"`
 	CicloDias         float64    `orm:"column(ciclo_dias)"`
 	Activo            bool       `orm:"column(activo)"`
-	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *RegistroCultivo) TableName() string {

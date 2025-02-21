@@ -11,11 +11,11 @@ import (
 )
 
 type FaseCultivo struct {
-	Id                int       `orm:"column(id_fase_cultivo);pk"`
+	Id                int       `orm:"column(id_fase_cultivo);pk; auto"`
 	NombreFase        string    `orm:"column(nombre_fase)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *FaseCultivo) TableName() string {
