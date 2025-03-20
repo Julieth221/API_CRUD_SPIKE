@@ -16,6 +16,7 @@ type Credenciales struct {
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Token             string    `orm:"column(token);null"`
 }
 
 func (t *Credenciales) TableName() string {
