@@ -16,18 +16,18 @@ type Usuario struct {
 	Apellido          string        `orm:"column(apellido)"`
 	Contacto          string        `orm:"column(contacto)"`
 	CorreoElectronico string        `orm:"column(correo_electronico)"`
-	Activo            bool          `orm:"column(activo);default(true)"`
+	Activo            bool          `orm:"column(activo)"`
 	FechaCreacion     time.Time     `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time     `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 	FkCredencial      *Credenciales `orm:"column(fk_credencial);rel(fk)"`
 }
 
 func (t *Usuario) TableName() string {
-	return "Usuario.Usuario"
+	return "Usuario"
 }
 
 func init() {
-	orm.RegisterModelWithPrefix("Usuario.", new(Usuario)) // "Usuario." es el prefijo del esquema
+	orm.RegisterModel(new(Usuario))
 }
 
 // AddUsuario insert a new Usuario into database and returns
@@ -134,9 +134,6 @@ func GetAllUsuario(query map[string]string, fields []string, sortby []string, or
 // the record to be updated doesn't exist
 func UpdateUsuarioById(m *Usuario) (err error) {
 	o := orm.NewOrm()
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := Usuario{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -131,9 +131,6 @@ func GetAllRoles(query map[string]string, fields []string, sortby []string, orde
 // the record to be updated doesn't exist
 func UpdateRolesById(m *Roles) (err error) {
 	o := orm.NewOrm()
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := Roles{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -130,9 +130,6 @@ func GetAllCredenciales(query map[string]string, fields []string, sortby []strin
 // the record to be updated doesn't exist
 func UpdateCredencialesById(m *Credenciales) (err error) {
 	o := orm.NewOrm()
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := Credenciales{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
