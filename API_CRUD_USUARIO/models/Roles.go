@@ -12,8 +12,7 @@ import (
 
 type Roles struct {
 	Id                int       `orm:"column(id_roles);pk;auto"`
-	Roles             string    `orm:"column(roles)"`
-	DescripcionRoles  string    `orm:"column(descripcion_roles)"`
+	Nombre            string    `orm:"column(nombre)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
