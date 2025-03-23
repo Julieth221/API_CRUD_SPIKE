@@ -52,6 +52,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:CredencialesController"] = append(beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:CredencialesController"],
+        beego.ControllerComments{
+            Method: "Patch",
+            Router: "/:id",
+            AllowHTTPMethods: []string{"patch"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:RolesController"] = append(beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:RolesController"],
         beego.ControllerComments{
             Method: "Post",
@@ -183,6 +192,15 @@ func init() {
             Method: "Delete",
             Router: "/:id",
             AllowHTTPMethods: []string{"delete"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
+    beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:UsuarioController"] = append(beego.GlobalControllerRouter["github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers:UsuarioController"],
+        beego.ControllerComments{
+            Method: "Patch",
+            Router: "/:id",
+            AllowHTTPMethods: []string{"patch"},
             MethodParams: param.Make(),
             Filters: nil,
             Params: nil})
