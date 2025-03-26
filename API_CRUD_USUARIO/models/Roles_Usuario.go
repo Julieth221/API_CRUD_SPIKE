@@ -43,7 +43,7 @@ func AddRolesUsuario(m *RolesUsuario) (id int64, err error) {
 func GetRolesUsuarioById(id int) (v *RolesUsuario, err error) {
 	o := orm.NewOrm()
 	v = &RolesUsuario{Id: id}
-	if err = o.Read(v); err == nil {
+	if err = o.QueryTable(new(RolesUsuario)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -54,7 +54,7 @@ func GetRolesUsuarioById(id int) (v *RolesUsuario, err error) {
 func GetAllRolesUsuario(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(RolesUsuario))
+	qs := o.QueryTable(new(RolesUsuario)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

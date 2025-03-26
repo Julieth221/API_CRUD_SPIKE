@@ -45,7 +45,7 @@ func AddParcela(m *Parcela) (id int64, err error) {
 func GetParcelaById(id int) (v *Parcela, err error) {
 	o := orm.NewOrm()
 	v = &Parcela{Id: id}
-	if err = o.Read(v); err == nil {
+	if err = o.QueryTable(new(Parcela)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -56,7 +56,7 @@ func GetParcelaById(id int) (v *Parcela, err error) {
 func GetAllParcela(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Parcela))
+	qs := o.QueryTable(new(Parcela)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -139,7 +139,7 @@ func UpdateParcelaById(m *Parcela) (err error) {
 	}
 	v := Parcela{Id: m.Id}
 	// ascertain id exists in the database
-	if err = o.Read(&v); err == nil {
+	if err = o.QueryTable(new(Parcela)).RelatedSel().Filter("Id", m.Id).One(&v); err == nil {
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)

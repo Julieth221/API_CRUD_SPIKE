@@ -46,7 +46,7 @@ func AddUsuario(m *Usuario) (id int64, err error) {
 func GetUsuarioById(id int) (v *Usuario, err error) {
 	o := orm.NewOrm()
 	v = &Usuario{Id: id}
-	if err = o.Read(v); err == nil {
+	if err = o.QueryTable(new(Usuario)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -57,7 +57,7 @@ func GetUsuarioById(id int) (v *Usuario, err error) {
 func GetAllUsuario(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Usuario))
+	qs := o.QueryTable(new(Usuario)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -136,7 +136,7 @@ func UpdateUsuarioById(m *Usuario) (err error) {
 	o := orm.NewOrm()
 	v := Usuario{Id: m.Id}
 	// ascertain id exists in the database
-	if err = o.Read(&v); err == nil {
+	if err = o.QueryTable(new(Usuario)).RelatedSel().Filter("Id", m.Id).One(&v); err == nil {
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)

@@ -47,7 +47,8 @@ func AddFincaParcela(m *FincaParcela) (id int64, err error) {
 func GetFincaParcelaById(id int) (v *FincaParcela, err error) {
 	o := orm.NewOrm()
 	v = &FincaParcela{Id: id}
-	if err = o.Read(v); err == nil {
+
+	if err = o.QueryTable(new(FincaParcela)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -58,7 +59,7 @@ func GetFincaParcelaById(id int) (v *FincaParcela, err error) {
 func GetAllFincaParcela(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(FincaParcela))
+	qs := o.QueryTable(new(FincaParcela)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -141,7 +142,7 @@ func UpdateFincaParcelaById(m *FincaParcela) (err error) {
 	}
 	v := FincaParcela{Id: m.Id}
 	// ascertain id exists in the database
-	if err = o.Read(&v); err == nil {
+	if err = o.QueryTable(new(FincaParcela)).RelatedSel().Filter("Id", m.Id).One(&v); err == nil {
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)
