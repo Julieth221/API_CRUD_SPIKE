@@ -1,7 +1,7 @@
 package main
 
 import (
-	_ "github.com/YAMITHSALC27/API_CRUD_SPIKE/routers"
+	
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
