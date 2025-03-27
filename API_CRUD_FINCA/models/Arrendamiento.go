@@ -11,15 +11,16 @@ import (
 )
 
 type Arrendamiento struct {
-	Id                       int       `orm:"column(id_arrendamiento);pk; auto"`
-	FkArrendamientoFinca     *Finca    `orm:"column(fk_arrendamiento_finca);rel(fk)"`
-	FkArrendatamientoParcela *Parcela  `orm:"column(fk_arrendatamiento_parcela);rel(fk)"`
-	FechaInicio              time.Time `orm:"column(fecha_inicio);type(date)"`
-	FechaFin                 time.Time `orm:"column(fecha_fin);type(date)"`
-	Valor                    string    `orm:"column(valor);null"`
-	Activo                   bool      `orm:"column(activo)"`
-	FechaCreacion            time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion        time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	Id                       int               `orm:"column(id_arrendamiento);pk"`
+	FkArrendamientoFinca     *Finca            `orm:"column(fk_arrendamiento_finca);rel(fk)"`
+	FkArrendatamientoParcela *Parcela          `orm:"column(fk_arrendatamiento_parcela);rel(fk)"`
+	FechaInicio              time.Time         `orm:"column(fecha_inicio);type(date)"`
+	FechaFin                 time.Time         `orm:"column(fecha_fin);type(date)"`
+	Valor                    string            `orm:"column(valor);null"`
+	Activo                   bool              `orm:"column(activo)"`
+	FechaCreacion            time.Time         `orm:"column(fecha_creacion);type(timestamp with time zone)"`
+	FechaModificacion        time.Time         `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
+	IdUserUserArrendatario   *UserArrendatario `orm:"column(id_user_User_Arrendatario);rel(fk)"`
 }
 
 func (t *Arrendamiento) TableName() string {
@@ -34,12 +35,6 @@ func init() {
 // last inserted Id on success.
 func AddArrendamiento(m *Arrendamiento) (id int64, err error) {
 	o := orm.NewOrm()
-
-	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
-	if !m.Activo {
-		m.Activo = true
-	}
-
 	id, err = o.Insert(m)
 	return
 }
@@ -137,10 +132,6 @@ func GetAllArrendamiento(query map[string]string, fields []string, sortby []stri
 // the record to be updated doesn't exist
 func UpdateArrendamientoById(m *Arrendamiento) (err error) {
 	o := orm.NewOrm()
-	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := Arrendamiento{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

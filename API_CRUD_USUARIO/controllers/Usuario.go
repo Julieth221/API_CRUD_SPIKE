@@ -181,3 +181,80 @@ func (c *UsuarioController) Delete() {
 	}
 	c.ServeJSON()
 }
+
+// Patch ...
+// @Title Patch
+// @Description update partially the Usuario
+// @Param	id		path 	string	true		"The id you want to update"
+// @Param	body		body 	map[string]interface{}	true		"Partial data to update Usuario"
+// @Success 200 {object} models.Usuario
+// @Failure 400 the request contains incorrect syntax
+// @router /:id [patch]
+func (c *UsuarioController) Patch() {
+	idStr := c.Ctx.Input.Param(":id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.Data["mesaage"] = "Error service Patch: Invalid ID format"
+		c.Abort("400")
+		return
+	}
+
+	// Obtener el usuario existente
+	usuario, err := models.GetUsuarioById(id)
+	if err != nil {
+		c.Data["mesaage"] = "Error service Patch: Usuario not found"
+		c.Abort("404")
+		return
+	}
+
+	// Leer los datos enviados en la solicitud
+	var updateData map[string]interface{}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &updateData); err != nil {
+		c.Data["mesaage"] = "Error service Patch: Invalid JSON format"
+		c.Abort("400")
+		return
+	}
+
+	// Actualizar solo los campos presentes en la solicitud
+	for key, value := range updateData {
+		switch key {
+		case "Nombre":
+			if nombre, ok := value.(string); ok {
+				usuario.Nombre = nombre
+			}
+		case "Apellido":
+			if apellido, ok := value.(string); ok {
+				usuario.Apellido = apellido
+			}
+		case "Contacto":
+			if contacto, ok := value.(string); ok {
+				usuario.Contacto = contacto
+			}
+		case "CorreoElectronico":
+			if correo, ok := value.(string); ok {
+				usuario.CorreoElectronico = correo
+			}
+		case "Activo":
+			if activo, ok := value.(bool); ok {
+				usuario.Activo = activo
+			}
+		case "FkCredencial":
+			if credencialMap, ok := value.(map[string]interface{}); ok {
+				if idCredencial, ok := credencialMap["Id"].(float64); ok {
+					credencialID := int(idCredencial)
+					usuario.FkCredencial = &models.Credenciales{Id: credencialID}
+				}
+			}
+		}
+	}
+
+	// Guardar los cambios en la base de datos
+	if err := models.UpdateUsuarioById(usuario); err == nil {
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Patch update successful", "Data": usuario}
+	} else {
+		c.Data["mesaage"] = "Error service Patch: Update failed"
+		c.Abort("400")
+	}
+
+	c.ServeJSON()
+}

@@ -181,3 +181,52 @@ func (c *CredencialesController) Delete() {
 	}
 	c.ServeJSON()
 }
+
+// Patch
+// @Title Patch
+// @Description patch the Credenciales
+// @router /:id [patch]
+func (c *CredencialesController) Patch() {
+	idStr := c.Ctx.Input.Param(":id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.Data["json"] = map[string]string{"error": "ID inválido"}
+		c.ServeJSON()
+		return
+	}
+
+	// Obtener las credenciales existentes
+	existingCred, err := models.GetCredencialesById(id)
+	if err != nil {
+		c.Data["json"] = map[string]string{"error": "Credenciales no encontradas"}
+		c.ServeJSON()
+		return
+	}
+
+	// Decodificar los datos recibidos
+	var updatedData map[string]interface{}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &updatedData); err != nil {
+		c.Data["json"] = map[string]string{"error": "Datos no válidos"}
+		c.ServeJSON()
+		return
+	}
+
+	// Actualizar solo los campos proporcionados
+	if contraseña, ok := updatedData["contraseña"].(string); ok {
+		existingCred.Contraseña = contraseña
+	}
+	if activo, ok := updatedData["activo"].(bool); ok {
+		existingCred.Activo = activo
+	}
+	if token, ok := updatedData["token"].(string); ok {
+		existingCred.Token = token
+	}
+
+	// Guardar cambios
+	if err := models.UpdateCredencialesById(existingCred); err != nil {
+		c.Data["json"] = map[string]string{"error": "Error al actualizar credenciales"}
+	} else {
+		c.Data["json"] = map[string]string{"success": "Credenciales actualizadas"}
+	}
+	c.ServeJSON()
+}

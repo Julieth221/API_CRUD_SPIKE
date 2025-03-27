@@ -18,7 +18,7 @@ type Geolocalizacion struct {
 	LongitudFinal     string    `orm:"column(longitud_final)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion string    `orm:"column(fecha_modificacion); auto_now"`
+	FechaModificacion string    `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *Geolocalizacion) TableName() string {

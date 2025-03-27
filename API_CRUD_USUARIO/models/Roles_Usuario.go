@@ -10,7 +10,7 @@ import (
 	"github.com/astaxie/beego/orm"
 )
 
-type Roles_Usuario struct {
+type RolesUsuario struct {
 	Id                int       `orm:"column(id_roles_usuario);pk;auto"`
 	FkUsuarioRoles    *Usuario  `orm:"column(fk_usuario_roles);rel(fk)"`
 	FkRolesUsuario    *Roles    `orm:"column(fk_roles_usuario);rel(fk)"`
@@ -19,17 +19,17 @@ type Roles_Usuario struct {
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
-func (t *Roles_Usuario) TableName() string {
-	return "Roles-Usuario"
+func (t *RolesUsuario) TableName() string {
+	return "Roles_Usuario"
 }
 
 func init() {
-	orm.RegisterModel(new(Roles_Usuario))
+	orm.RegisterModel(new(RolesUsuario))
 }
 
-// AddRoles-Usuario insert a new Roles-Usuario into database and returns
+// AddRolesUsuario insert a new RolesUsuario into database and returns
 // last inserted Id on success.
-func AddRoles_Usuario(m *Roles_Usuario) (id int64, err error) {
+func AddRolesUsuario(m *RolesUsuario) (id int64, err error) {
 	o := orm.NewOrm()
 	if !m.Activo {
 		m.Activo = true
@@ -38,23 +38,23 @@ func AddRoles_Usuario(m *Roles_Usuario) (id int64, err error) {
 	return
 }
 
-// GetRoles-UsuarioById retrieves Roles-Usuario by Id. Returns error if
+// GetRolesUsuarioById retrieves RolesUsuario by Id. Returns error if
 // Id doesn't exist
-func GetRoles_UsuarioById(id int) (v *Roles_Usuario, err error) {
+func GetRolesUsuarioById(id int) (v *RolesUsuario, err error) {
 	o := orm.NewOrm()
-	v = &Roles_Usuario{Id: id}
-	if err = o.Read(v); err == nil {
+	v = &RolesUsuario{Id: id}
+	if err = o.QueryTable(new(RolesUsuario)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllRoles-Usuario retrieves all Roles-Usuario matches certain condition. Returns empty list if
+// GetAllRolesUsuario retrieves all RolesUsuario matches certain condition. Returns empty list if
 // no records exist
-func GetAllRoles_Usuario(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllRolesUsuario(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Roles_Usuario))
+	qs := o.QueryTable(new(RolesUsuario)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -104,7 +104,7 @@ func GetAllRoles_Usuario(query map[string]string, fields []string, sortby []stri
 		}
 	}
 
-	var l []Roles_Usuario
+	var l []RolesUsuario
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -127,14 +127,11 @@ func GetAllRoles_Usuario(query map[string]string, fields []string, sortby []stri
 	return nil, err
 }
 
-// UpdateRoles-Usuario updates Roles-Usuario by Id and returns error if
+// UpdateRolesUsuario updates RolesUsuario by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateRoles_UsuarioById(m *Roles_Usuario) (err error) {
+func UpdateRolesUsuarioById(m *RolesUsuario) (err error) {
 	o := orm.NewOrm()
-	if !m.Activo {
-		m.Activo = true
-	}
-	v := Roles_Usuario{Id: m.Id}
+	v := RolesUsuario{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -145,15 +142,15 @@ func UpdateRoles_UsuarioById(m *Roles_Usuario) (err error) {
 	return
 }
 
-// DeleteRoles-Usuario deletes Roles-Usuario by Id and returns error if
+// DeleteRolesUsuario deletes RolesUsuario by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteRoles_Usuario(id int) (err error) {
+func DeleteRolesUsuario(id int) (err error) {
 	o := orm.NewOrm()
-	v := Roles_Usuario{Id: id}
+	v := RolesUsuario{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Roles_Usuario{Id: id}); err == nil {
+		if num, err = o.Delete(&RolesUsuario{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}

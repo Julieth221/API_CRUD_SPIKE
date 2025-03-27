@@ -22,21 +22,21 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/Credenciales",
-			beego.NSInclude(
-				&controllers.CredencialesController{},
-			),
-		),
-
 		beego.NSNamespace("/Usuario",
 			beego.NSInclude(
 				&controllers.UsuarioController{},
 			),
 		),
 
+		beego.NSNamespace("/Credenciales",
+			beego.NSInclude(
+				&controllers.CredencialesController{},
+			),
+		),
+
 		beego.NSNamespace("/Roles_Usuario",
 			beego.NSInclude(
-				&controllers.Roles_UsuarioController{},
+				&controllers.RolesUsuarioController{},
 			),
 		),
 	)

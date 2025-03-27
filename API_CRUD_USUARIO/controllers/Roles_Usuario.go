@@ -11,13 +11,13 @@ import (
 	"github.com/astaxie/beego"
 )
 
-// Roles-UsuarioController operations for Roles-Usuario
-type Roles_UsuarioController struct {
+// RolesUsuarioController operations for RolesUsuario
+type RolesUsuarioController struct {
 	beego.Controller
 }
 
 // URLMapping ...
-func (c *Roles_UsuarioController) URLMapping() {
+func (c *RolesUsuarioController) URLMapping() {
 	c.Mapping("Post", c.Post)
 	c.Mapping("GetOne", c.GetOne)
 	c.Mapping("GetAll", c.GetAll)
@@ -27,15 +27,15 @@ func (c *Roles_UsuarioController) URLMapping() {
 
 // Post ...
 // @Title Post
-// @Description create Roles-Usuario
-// @Param	body		body 	models.Roles-Usuario	true		"body for Roles-Usuario content"
-// @Success 201 {int} models.Roles-Usuario
+// @Description create RolesUsuario
+// @Param	body		body 	models.RolesUsuario	true		"body for RolesUsuario content"
+// @Success 201 {int} models.RolesUsuario
 // @Failure 400 the request contains incorrect syntax
 // @router / [post]
-func (c *Roles_UsuarioController) Post() {
-	var v models.Roles_Usuario
+func (c *RolesUsuarioController) Post() {
+	var v models.RolesUsuario
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if _, err := models.AddRoles_Usuario(&v); err == nil {
+		if _, err := models.AddRolesUsuario(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "201", "Message": "Registration successful", "Data": v}
 		} else {
@@ -51,15 +51,15 @@ func (c *Roles_UsuarioController) Post() {
 
 // GetOne ...
 // @Title Get One
-// @Description get Roles-Usuario by id
+// @Description get RolesUsuario by id
 // @Param	id		path 	string	true		"The key for staticblock"
-// @Success 200 {object} models.Roles-Usuario
+// @Success 200 {object} models.RolesUsuario
 // @Failure 404 not found resource
 // @router /:id [get]
-func (c *Roles_UsuarioController) GetOne() {
+func (c *RolesUsuarioController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v, err := models.GetRoles_UsuarioById(id)
+	v, err := models.GetRolesUsuarioById(id)
 	if err != nil {
 		c.Data["mesaage"] = "Error service GetOne: The request contains an incorrect parameter or no record exists"
 		c.Abort("404")
@@ -71,17 +71,17 @@ func (c *Roles_UsuarioController) GetOne() {
 
 // GetAll ...
 // @Title Get All
-// @Description get Roles-Usuario
+// @Description get RolesUsuario
 // @Param	query	query	string	false	"Filter. e.g. col1:v1,col2:v2 ..."
 // @Param	fields	query	string	false	"Fields returned. e.g. col1,col2 ..."
 // @Param	sortby	query	string	false	"Sorted-by fields. e.g. col1,col2 ..."
 // @Param	order	query	string	false	"Order corresponding to each sortby field, if single value, apply to all sortby fields. e.g. desc,asc ..."
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
-// @Success 200 {object} models.Roles-Usuario
+// @Success 200 {object} models.RolesUsuario
 // @Failure 404 not found resource
 // @router / [get]
-func (c *Roles_UsuarioController) GetAll() {
+func (c *RolesUsuarioController) GetAll() {
 	var fields []string
 	var sortby []string
 	var order []string
@@ -123,7 +123,7 @@ func (c *Roles_UsuarioController) GetAll() {
 		}
 	}
 
-	l, err := models.GetAllRoles_Usuario(query, fields, sortby, order, offset, limit)
+	l, err := models.GetAllRolesUsuario(query, fields, sortby, order, offset, limit)
 	if err != nil {
 		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
 		c.Abort("404")
@@ -138,18 +138,18 @@ func (c *Roles_UsuarioController) GetAll() {
 
 // Put ...
 // @Title Put
-// @Description update the Roles-Usuario
+// @Description update the RolesUsuario
 // @Param	id		path 	string	true		"The id you want to update"
-// @Param	body		body 	models.Roles-Usuario	true		"body for Roles-Usuario content"
-// @Success 200 {object} models.Roles-Usuario
+// @Param	body		body 	models.RolesUsuario	true		"body for RolesUsuario content"
+// @Success 200 {object} models.RolesUsuario
 // @Failure 400 the request contains incorrect syntax
 // @router /:id [put]
-func (c *Roles_UsuarioController) Put() {
+func (c *RolesUsuarioController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	v := models.Roles_Usuario{Id: id}
+	v := models.RolesUsuario{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
-		if err := models.UpdateRoles_UsuarioById(&v); err == nil {
+		if err := models.UpdateRolesUsuarioById(&v); err == nil {
 			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {
 			c.Data["mesaage"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
@@ -164,15 +164,15 @@ func (c *Roles_UsuarioController) Put() {
 
 // Delete ...
 // @Title Delete
-// @Description delete the Roles-Usuario
+// @Description delete the RolesUsuario
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
 // @Failure 404 not found resource
 // @router /:id [delete]
-func (c *Roles_UsuarioController) Delete() {
+func (c *RolesUsuarioController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
-	if err := models.DeleteRoles_Usuario(id); err == nil {
+	if err := models.DeleteRolesUsuario(id); err == nil {
 		d := map[string]interface{}{"Id": id}
 		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Delete successful", "Data": d}
 	} else {

@@ -16,6 +16,7 @@ type Credenciales struct {
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Token             string    `orm:"column(token);null"`
 }
 
 func (t *Credenciales) TableName() string {
@@ -130,9 +131,6 @@ func GetAllCredenciales(query map[string]string, fields []string, sortby []strin
 // the record to be updated doesn't exist
 func UpdateCredencialesById(m *Credenciales) (err error) {
 	o := orm.NewOrm()
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := Credenciales{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

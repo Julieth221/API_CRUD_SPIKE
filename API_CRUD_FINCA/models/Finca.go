@@ -17,6 +17,7 @@ type Finca struct {
 	AreaTotal         float64    `orm:"column(area_total)"`
 	TotalParcelas     float64    `orm:"column(total_parcelas)"`
 	TamañoParcelas    float64    `orm:"column(tamaño_parcelas)"`
+	Id_Usuario        int        `orm:"column(id_usuario);null"`
 	Activo            bool       `orm:"column(activo)"`
 	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
 	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
@@ -49,7 +50,8 @@ func AddFinca(m *Finca) (id int64, err error) {
 func GetFincaById(id int) (v *Finca, err error) {
 	o := orm.NewOrm()
 	v = &Finca{Id: id}
-	if err = o.Read(v); err == nil {
+
+	if err = o.QueryTable(new(Finca)).RelatedSel().Filter("Id", id).One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -60,7 +62,7 @@ func GetFincaById(id int) (v *Finca, err error) {
 func GetAllFinca(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Finca))
+	qs := o.QueryTable(new(Finca)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -137,13 +139,15 @@ func GetAllFinca(query map[string]string, fields []string, sortby []string, orde
 // the record to be updated doesn't exist
 func UpdateFincaById(m *Finca) (err error) {
 	o := orm.NewOrm()
+
 	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
 	if !m.Activo {
 		m.Activo = true
 	}
-	v := Finca{Id: m.Id}
-	// ascertain id exists in the database
-	if err = o.Read(&v); err == nil {
+
+	v := Finca{}
+	// Verifica que el ID exista en la base de datos y carga relaciones
+	if err = o.QueryTable(new(Finca)).RelatedSel().Filter("Id", m.Id).One(&v); err == nil {
 		var num int64
 		if num, err = o.Update(m); err == nil {
 			fmt.Println("Number of records updated in database:", num)
