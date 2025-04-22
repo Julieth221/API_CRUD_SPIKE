@@ -40,7 +40,7 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/Finca_Parcela",
+		beego.NSNamespace("/FincaParcela",
 			beego.NSInclude(
 				&controllers.FincaParcelaController{},
 			),
@@ -49,6 +49,12 @@ func init() {
 		beego.NSNamespace("/Geolocalizacion",
 			beego.NSInclude(
 				&controllers.GeolocalizacionController{},
+			),
+		),
+
+		beego.NSNamespace("/User_Arrendatario",
+			beego.NSInclude(
+				&controllers.UserArrendatarioController{},
 			),
 		),
 	)
