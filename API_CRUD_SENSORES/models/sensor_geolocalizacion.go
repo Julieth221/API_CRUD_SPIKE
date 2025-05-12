@@ -11,7 +11,7 @@ import (
 )
 
 type SensorGeolocalizacion struct {
-	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk;auto"`
+	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk"`
 	FkSensor                *Sensor                `orm:"column(fk_sensor);rel(fk)"`
 	FkGeolocalizacionSensor *GeolocalizacionSensor `orm:"column(fk_geolocalizacion_sensor);rel(fk)"`
 	Activo                  bool                   `orm:"column(activo)"`
@@ -54,7 +54,7 @@ func GetSensorGeolocalizacionById(id int) (v *SensorGeolocalizacion, err error) 
 func GetAllSensorGeolocalizacion(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(SensorGeolocalizacion))
+	qs := o.QueryTable(new(SensorGeolocalizacion)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

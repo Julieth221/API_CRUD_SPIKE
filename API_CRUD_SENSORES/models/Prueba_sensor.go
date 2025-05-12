@@ -11,12 +11,12 @@ import (
 )
 
 type PruebaSensor struct {
-	Id                int       `orm:"column(id_prueba_sensor);pk;auto"`
+	Id                int       `orm:"column(id_prueba_sensor);pk"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	ResultadoSensor   string    `orm:"column(resultado_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);;auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);;auto_now"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *PruebaSensor) TableName() string {
@@ -54,7 +54,7 @@ func GetPruebaSensorById(id int) (v *PruebaSensor, err error) {
 func GetAllPruebaSensor(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(PruebaSensor))
+	qs := o.QueryTable(new(PruebaSensor)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

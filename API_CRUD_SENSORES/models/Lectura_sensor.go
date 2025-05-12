@@ -11,13 +11,13 @@ import (
 )
 
 type LecturaSensor struct {
-	Id                int       `orm:"column(id_lectura_sensor);pk;auto"`
+	Id                int       `orm:"column(id_lectura_sensor);pk"`
 	FechaLectura      time.Time `orm:"column(fecha_lectura);type(timestamp with time zone)"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	DatosSensor       string    `orm:"column(datos_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *LecturaSensor) TableName() string {
@@ -55,7 +55,7 @@ func GetLecturaSensorById(id int) (v *LecturaSensor, err error) {
 func GetAllLecturaSensor(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(LecturaSensor))
+	qs := o.QueryTable(new(LecturaSensor)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

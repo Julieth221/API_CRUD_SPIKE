@@ -1,4 +1,3 @@
-
 package models
 
 import (
@@ -12,7 +11,7 @@ import (
 )
 
 type TipoAlertas struct {
-	Id                int       `orm:"column(id_tipo_alerta);pk;auto"`
+	Id                int       `orm:"column(id_tipo_alerta);pk"`
 	NombreAlerta      string    `orm:"column(nombre_alerta)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`

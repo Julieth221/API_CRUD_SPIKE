@@ -11,7 +11,7 @@ import (
 )
 
 type Umbral struct {
-	Id                int       `orm:"column(id_umbral);pk;auto"`
+	Id                int       `orm:"column(id_umbral);pk"`
 	DatosSensor       string    `orm:"column(datos_sensor);type(json);null"`
 	UmbralMinimo      float64   `orm:"column(umbral_minimo)"`
 	UmbralMaximo      float64   `orm:"column(umbral_maximo)"`

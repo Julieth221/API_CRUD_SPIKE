@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES/models"
+	"github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_SENSORES/models"
 
 	"github.com/astaxie/beego"
 )
@@ -30,7 +30,7 @@ func (c *AlertasController) URLMapping() {
 // @Description create Alertas
 // @Param	body		body 	models.Alertas	true		"body for Alertas content"
 // @Success 201 {int} models.Alertas
-// @Failure 400 the request contains incorrect syntax
+// @Failure 403 body is empty
 // @router / [post]
 func (c *AlertasController) Post() {
 	var v models.Alertas
@@ -54,7 +54,7 @@ func (c *AlertasController) Post() {
 // @Description get Alertas by id
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.Alertas
-// @Failure 404 not found resource
+// @Failure 403 :id is empty
 // @router /:id [get]
 func (c *AlertasController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
@@ -79,7 +79,7 @@ func (c *AlertasController) GetOne() {
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.Alertas
-// @Failure 404 not found resource
+// @Failure 403
 // @router / [get]
 func (c *AlertasController) GetAll() {
 	var fields []string
@@ -142,7 +142,7 @@ func (c *AlertasController) GetAll() {
 // @Param	id		path 	string	true		"The id you want to update"
 // @Param	body		body 	models.Alertas	true		"body for Alertas content"
 // @Success 200 {object} models.Alertas
-// @Failure 400 the request contains incorrect syntax
+// @Failure 403 :id is not int
 // @router /:id [put]
 func (c *AlertasController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
@@ -167,7 +167,7 @@ func (c *AlertasController) Put() {
 // @Description delete the Alertas
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
-// @Failure 404 not found resource
+// @Failure 403 id is empty
 // @router /:id [delete]
 func (c *AlertasController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")

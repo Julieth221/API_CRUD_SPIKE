@@ -11,7 +11,7 @@ import (
 )
 
 type TipoSensor struct {
-	Id                int       `orm:"column(id_tipo_sensor);pk;auto"`
+	Id                int       `orm:"column(id_tipo_sensor);pk"`
 	NombreTipoSensor  string    `orm:"column(nombre_tipo_sensor);null"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
