@@ -11,12 +11,13 @@ import (
 )
 
 type UserArrendatario struct {
-	Id                int       `orm:"column(id_user);pk"`
+	Id                int       `orm:"column(id_user);pk;auto"`
 	Nombre            string    `orm:"column(nombre)"`
 	Contacto          string    `orm:"column(contacto)"`
+	Id_Usuario        int       `orm:"column(id_usuario_sistem)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
 }
 
 func (t *UserArrendatario) TableName() string {
@@ -31,6 +32,9 @@ func init() {
 // last inserted Id on success.
 func AddUserArrendatario(m *UserArrendatario) (id int64, err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -128,6 +132,9 @@ func GetAllUserArrendatario(query map[string]string, fields []string, sortby []s
 // the record to be updated doesn't exist
 func UpdateUserArrendatarioById(m *UserArrendatario) (err error) {
 	o := orm.NewOrm()
+	if !m.Activo {
+		m.Activo = true
+	}
 	v := UserArrendatario{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

@@ -8,14 +8,16 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
+	modelsUsuario "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/models"
 )
 
 type EstadoFenologicoCultivo struct {
-	Id                int       `orm:"column(id_estado_fenologico_cultivo);pk; auto"`
-	Nombre            string    `orm:"column(nombre)"`
-	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	Id                int                    `orm:"column(id_estado_fenologico_cultivo);pk; auto"`
+	Nombre            string                 `orm:"column(nombre)"`
+	Activo            bool                   `orm:"column(activo)"`
+	FechaCreacion     time.Time              `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time              `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	FkUsuario         *modelsUsuario.Usuario `orm:"column(fk_usuario);rel(fk)"`
 }
 
 func (t *EstadoFenologicoCultivo) TableName() string {

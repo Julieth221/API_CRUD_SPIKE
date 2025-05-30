@@ -12,6 +12,8 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
+	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO v0.0.0-20250326190140-11a2daed33fb // indirect
+	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO v0.0.0-20250326190140-11a2daed33fb // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.10.0 // indirect

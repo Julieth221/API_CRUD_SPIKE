@@ -14,8 +14,11 @@ type Parcela struct {
 	Id                int       `orm:"column(id_parcela);pk; auto"`
 	FkFincaParcela    *Finca    `orm:"column(fk_finca_parcela);rel(fk)"`
 	NombreParcela     string    `orm:"column(nombre_parcela)"`
-	TamañoParcela     float64   `orm:"column(tamaño_parcela)"`
-	Activo            bool      `orm:"column(activo)"`
+	TamanoParcela     float64   `orm:"column(tamaño_parcela)"`
+	IdParcelaPadre    *Parcela  `orm:"column(fk_parcela_padre);rel(fk);null"` // Referencia a la parcela de la que proviene
+	Version           int       `orm:"column(version);default(1)"`
+	MotivoCambio      string    `orm:"column(motivo_cambio);null"` // Motivo si fue modificada/dividida
+	Activo            *bool     `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
@@ -33,8 +36,9 @@ func init() {
 func AddParcela(m *Parcela) (id int64, err error) {
 	o := orm.NewOrm()
 	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
-	if !m.Activo {
-		m.Activo = true
+	if m.Activo == nil {
+		val := true
+		m.Activo = &val
 	}
 	id, err = o.Insert(m)
 	return
@@ -133,9 +137,13 @@ func GetAllParcela(query map[string]string, fields []string, sortby []string, or
 // the record to be updated doesn't exist
 func UpdateParcelaById(m *Parcela) (err error) {
 	o := orm.NewOrm()
-	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
-	if !m.Activo {
-		m.Activo = true
+
+	if m.Activo != nil {
+		// Usar el valor proporcionado
+	} else {
+		val := true
+		m.Activo = &val
+
 	}
 	v := Parcela{Id: m.Id}
 	// ascertain id exists in the database

@@ -7,18 +7,28 @@ import (
 	"strings"
 	"time"
 
+	modelsFinca "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_FINCA/models"
+	modelsUsuario "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/models"
+
 	"github.com/astaxie/beego/orm"
 )
 
 type RegistroCultivo struct {
-	Id                int        `orm:"column(id_registro_cultivo);pk; auto"`
-	FkTipoArroz       *TipoArroz `orm:"column(fk_tipo_arroz);rel(fk)"`
-	Nombre            string     `orm:"column(nombre)"`
-	FechaSiembra      time.Time  `orm:"column(fecha_siembra);type(date)"`
-	CicloDias         float64    `orm:"column(ciclo_dias)"`
-	Activo            bool       `orm:"column(activo)"`
-	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	Id                        int                        `orm:"column(id_registro_cultivo);pk; auto"`
+	FkTipoArroz               *TipoArroz                 `orm:"column(fk_tipo_arroz);rel(fk)"`
+	FkArrendamiento           *modelsFinca.Arrendamiento `orm:"column(fk_arrendamiento);rel(fk);null"` //se asocia al arrendamiento
+	FkParcela                 *modelsFinca.Parcela       `orm:"column(fk_parcela);rel(fk);null"`       //se asocia a la parcela
+	Nombre                    string                     `orm:"column(nombre)"`
+	FechaSiembra              time.Time                  `orm:"column(fecha_siembra);type(date)"`
+	CicloDias                 float64                    `orm:"column(ciclo_dias)"`
+	FkEstadoFenologicoCultivo *EstadoFenologicoCultivo   `orm:"column(fk_estado_fenologico_cultivo);rel(fk)"`
+	FkMetodoSiembra           *MetodoSiembra             `orm:"column(fk_metodo_siembra);rel(fk)"`
+	DensidadSiembra           float64                    `orm:"column(densidad_siembra)"`
+	AreaSembrada              float64                    `orm:"column(area_sembrada)"`
+	Activo                    bool                       `orm:"column(activo)"`
+	FechaCreacion             time.Time                  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion         time.Time                  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	FkUsuario                 *modelsUsuario.Usuario     `orm:"column(fk_usuario);rel(fk)"`
 }
 
 func (t *RegistroCultivo) TableName() string {

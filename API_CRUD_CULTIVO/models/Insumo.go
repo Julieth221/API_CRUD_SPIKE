@@ -13,7 +13,6 @@ import (
 type Insumo struct {
 	Id                       int                     `orm:"column(id_insumo);pk; auto"`
 	FkRegistroCultivo        *RegistroCultivo        `orm:"column(fk_registro_cultivo);rel(fk)"`
-	FkTipoInsumo             *TipoInsumo             `orm:"column(fk_tipo_insumo);rel(fk)"`
 	FkCategoriaInsumo        *CategoriaInsumo        `orm:"column(fk_categoria_insumo);rel(fk)"`
 	FkMetodoAplicacionInsumo *MetodoAplicacionInsumo `orm:"column(fk_metodo_aplicacion_insumo);rel(fk)"`
 	NombreInsumo             string                  `orm:"column(nombre_insumo)"`

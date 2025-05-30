@@ -7,17 +7,22 @@ import (
 	"strings"
 	"time"
 
+	modelsCultivo "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO/models"
+	modelsUsuario "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/models"
+
 	"github.com/astaxie/beego/orm"
 )
 
 type Sensor struct {
-	Id                int         `orm:"column(id_sensor);pk;auto"`
-	NombreSensor      string      `orm:"column(nombre_sensor)"`
-	FkTipoSensor      *TipoSensor `orm:"column(fk_tipo_sensor);rel(fk)"`
-	Activo            bool        `orm:"column(activo)"`
-	FechaInstalacion  time.Time   `orm:"column(fecha_instalacion);type(timestamp with time zone);auto_now_add"`
-	FechaCreacion     time.Time   `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time   `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id                  int                            `orm:"column(id_sensor);pk;auto"`
+	FkTipoSensor        *TipoSensor                    `orm:"column(fk_tipo_sensor);rel(fk)"`
+	FkCultivo           *modelsCultivo.RegistroCultivo `orm:"column(fk_cultivo);rel(fk)"`
+	Activo              bool                           `orm:"column(activo)"`
+	FechaInstalacion    time.Time                      `orm:"column(fecha_instalacion);type(timestamp with time zone);auto_now_add"`
+	FechaCreacion       time.Time                      `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion   time.Time                      `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FkUsuario           *modelsUsuario.Usuario         `orm:"column(fk_usuario);rel(fk)"`
+	IdentificadorSensor string                         `orm:"column(identificador_sensor)"`
 }
 
 func (t *Sensor) TableName() string {
@@ -55,7 +60,7 @@ func GetSensorById(id int) (v *Sensor, err error) {
 func GetAllSensor(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Sensor))
+	qs := o.QueryTable(new(Sensor)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

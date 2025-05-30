@@ -15,6 +15,7 @@ type Umbral struct {
 	DatosSensor       string    `orm:"column(datos_sensor);type(json);null"`
 	UmbralMinimo      float64   `orm:"column(umbral_minimo)"`
 	UmbralMaximo      float64   `orm:"column(umbral_maximo)"`
+	FkSensor          *Sensor   `orm:"column(fk_sensor);rel(fk)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
