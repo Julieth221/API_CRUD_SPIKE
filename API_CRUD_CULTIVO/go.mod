@@ -3,7 +3,6 @@ module github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO
 go 1.23.1
 
 replace (
-
 	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_FINCA => ../API_CRUD_FINCA
 	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO => ../API_CRUD_USUARIO
 )

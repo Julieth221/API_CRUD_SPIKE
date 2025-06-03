@@ -14,7 +14,10 @@ type CultivoFase struct {
 	Id                int              `orm:"column(id_cultivo_fase);pk;auto"`
 	FkCultivoFase     *RegistroCultivo `orm:"column(fk_cultivo_fase);rel(fk)"`
 	FkFaseCultivo     *FaseCultivo     `orm:"column(fk_fase_cultivo);rel(fk)"`
-	Completada        bool             `orm:"column(completada);null"`
+	FechaInicio       time.Time        `orm:"column(fecha_inicio);type(date)"`
+	FechaFin          time.Time        `orm:"column(fecha_fin);type(date)"`
+	Observaciones     string           `orm:"column(observaciones);"`
+	Completada        bool             `orm:"column(completada);"`
 	Activo            bool             `orm:"column(activo)"`
 	FechaCreacion     time.Time        `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time        `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
@@ -32,6 +35,10 @@ func init() {
 // last inserted Id on success.
 func AddCultivoFase(m *CultivoFase) (id int64, err error) {
 	o := orm.NewOrm()
+
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -52,7 +59,7 @@ func GetCultivoFaseById(id int) (v *CultivoFase, err error) {
 func GetAllCultivoFase(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(CultivoFase))
+	qs := o.QueryTable(new(CultivoFase)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute

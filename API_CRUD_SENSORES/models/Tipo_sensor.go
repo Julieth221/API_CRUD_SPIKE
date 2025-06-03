@@ -16,7 +16,7 @@ type TipoSensor struct {
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
-	Descripcion       string    `orm:"column(descripcion)"`
+	// Descripcion       string    `orm:"column(descripcion)"`
 }
 
 func (t *TipoSensor) TableName() string {

@@ -8,17 +8,15 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	modelsUsuario "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/models"
 )
 
 type TipoInsumo struct {
-	Id                int                    `orm:"column(id_tipo_insumo);pk;auto"`
-	TipoInsumo        string                 `orm:"column(tipo_insumo)"`
-	Nombre            string                 `orm:"column(nombre)"`
-	Activo            bool                   `orm:"column(activo);default(true)"`
-	FechaCreacion     time.Time              `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time              `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
-	FkUsuario         *modelsUsuario.Usuario `orm:"column(fk_usuario);rel(fk)"`
+	Id                int       `orm:"column(id_tipo_insumo);pk;auto"`
+	Nombre            string    `orm:"column(nombre)"`
+	Activo            bool      `orm:"column(activo);default(true)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id_Usuario        int       `orm:"column(id_usuario)"`
 }
 
 func (t *TipoInsumo) TableName() string {

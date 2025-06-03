@@ -8,16 +8,15 @@ import (
 	"time"
 
 	"github.com/astaxie/beego/orm"
-	modelsUsuario "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/models"
 )
 
 type CategoriaInsumo struct {
-	Id                int                    `orm:"column(id_categoria_insumo);pk;auto"`
-	Nombre            string                 `orm:"column(nombre)"`
-	Activo            bool                   `orm:"column(activo)"`
-	FechaCreacion     time.Time              `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time              `orm:"column(fecha_modificacion);type(timestamp with time zone)auto_now"`
-	FkUsuario         *modelsUsuario.Usuario `orm:"column(fk_usuario);rel(fk)"`
+	Id                int       `orm:"column(id_categoria_insumo);pk;auto"`
+	Nombre            string    `orm:"column(nombre)"`
+	Activo            bool      `orm:"column(activo)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id_Usuario        int       `orm:"column(id_usuario)"`
 }
 
 func (t *CategoriaInsumo) TableName() string {
@@ -32,6 +31,11 @@ func init() {
 // last inserted Id on success.
 func AddCategoriaInsumo(m *CategoriaInsumo) (id int64, err error) {
 	o := orm.NewOrm()
+
+	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
