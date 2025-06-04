@@ -12,11 +12,11 @@ import (
 
 type TipoInsumo struct {
 	Id                int       `orm:"column(id_tipo_insumo);pk;auto"`
-	TipoInsumo        string    `orm:"column(tipo_insumo)"`
 	Nombre            string    `orm:"column(nombre)"`
 	Activo            bool      `orm:"column(activo);default(true)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id_Usuario        int       `orm:"column(id_usuario)"`
 }
 
 func (t *TipoInsumo) TableName() string {

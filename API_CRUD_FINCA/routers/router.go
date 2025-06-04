@@ -57,6 +57,11 @@ func init() {
 				&controllers.UserArrendatarioController{},
 			),
 		),
+		beego.NSNamespace("/Arrendamiento_Parcela",
+			beego.NSInclude(
+				&controllers.ArrendamientoParcelaController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

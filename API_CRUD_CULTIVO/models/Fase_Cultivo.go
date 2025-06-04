@@ -14,8 +14,8 @@ type FaseCultivo struct {
 	Id                int       `orm:"column(id_fase_cultivo);pk; auto"`
 	NombreFase        string    `orm:"column(nombre_fase)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *FaseCultivo) TableName() string {
@@ -30,7 +30,6 @@ func init() {
 // last inserted Id on success.
 func AddFaseCultivo(m *FaseCultivo) (id int64, err error) {
 	o := orm.NewOrm()
-	// Si Activo no se envía en el JSON, Go lo inicializa en false (valor cero)	
 	if !m.Activo {
 		m.Activo = true
 	}

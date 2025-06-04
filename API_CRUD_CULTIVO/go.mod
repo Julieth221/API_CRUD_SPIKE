@@ -4,7 +4,7 @@ go 1.24.0
 
 require (
 	github.com/astaxie/beego v1.12.3
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO v0.0.0-20250326190140-11a2daed33fb
+	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO v0.0.0-20250603200844-3bed27b53286
 	github.com/lib/pq v1.10.9
 	github.com/udistrital/utils_oas v0.0.0-20250114021635-46e1121b7d64
 )

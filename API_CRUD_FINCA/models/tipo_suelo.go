@@ -13,6 +13,7 @@ import (
 type TipoSuelo struct {
 	Id                int       `orm:"column(id_tipo_suelo);pk;auto"`
 	Nombre            string    `orm:"column(nombre)"`
+	Id_Usuario        int       `orm:"column(id_usuario)"`
 	Activo            bool      `orm:"column(activo);default(true)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`

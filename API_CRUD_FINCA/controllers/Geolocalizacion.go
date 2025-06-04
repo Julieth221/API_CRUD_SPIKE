@@ -181,3 +181,75 @@ func (c *GeolocalizacionController) Delete() {
 	}
 	c.ServeJSON()
 }
+
+// Patch ...
+// @Title Patch
+// @Description update partially the Geolocalizacion
+// @Param	id		path 	string	true		"The id you want to update"
+// @Param	body		body 	map[string]interface{}	true		"Partial data to update Geolocalizacion"
+// @Success 200 {object} models.Geolocalizacion
+// @Failure 400 the request contains incorrect syntax
+// @Failure 404 the geolocalizacion is not found
+// @router /:id [patch]
+func (c *GeolocalizacionController) Patch() {
+	idStr := c.Ctx.Input.Param(":id")
+	id, err := strconv.Atoi(idStr)
+	if err != nil {
+		c.Data["message"] = "Error service Patch: Invalid ID format"
+		c.Abort("400")
+		return
+	}
+
+	// Obtener la geolocalización existente
+	geolocalizacion, err := models.GetGeolocalizacionById(id)
+	if err != nil {
+		c.Data["message"] = "Error service Patch: Geolocalizacion not found"
+		c.Abort("404")
+		return
+	}
+
+	// Leer los datos enviados en la solicitud
+	var updateData map[string]interface{}
+	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &updateData); err != nil {
+		c.Data["message"] = "Error service Patch: Invalid JSON format"
+		c.Abort("400")
+		return
+	}
+
+	// Actualizar solo los campos presentes en la solicitud
+	for key, value := range updateData {
+		switch key {
+		case "LatitudInicial":
+			if latInicial, ok := value.(string); ok {
+				geolocalizacion.LatitudInicial = latInicial
+			}
+		case "LongitudInicial":
+			if lonInicial, ok := value.(string); ok {
+				geolocalizacion.LongitudInicial = lonInicial
+			}
+		case "LatitudFinal":
+			if latFinal, ok := value.(string); ok {
+				geolocalizacion.LatitudFinal = latFinal
+			}
+		case "LongitudFinal":
+			if lonFinal, ok := value.(string); ok {
+				geolocalizacion.LongitudFinal = lonFinal
+			}
+		}
+	}
+
+	// Guardar los cambios en la base de datos
+	if err := models.UpdateGeolocalizacionById(geolocalizacion); err == nil {
+		c.Data["json"] = map[string]interface{}{
+			"Success": true,
+			"Status":  "200",
+			"Message": "Patch update successful",
+			"Data":    geolocalizacion,
+		}
+	} else {
+		c.Data["message"] = "Error service Patch: Update failed"
+		c.Abort("400")
+	}
+
+	c.ServeJSON()
+}

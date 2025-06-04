@@ -11,14 +11,20 @@ import (
 )
 
 type RegistroCultivo struct {
-	Id                int        `orm:"column(id_registro_cultivo);pk; auto"`
-	FkTipoArroz       *TipoArroz `orm:"column(fk_tipo_arroz);rel(fk)"`
-	Nombre            string     `orm:"column(nombre)"`
-	FechaSiembra      time.Time  `orm:"column(fecha_siembra);type(date)"`
-	CicloDias         float64    `orm:"column(ciclo_dias)"`
-	Activo            bool       `orm:"column(activo)"`
-	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
-	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
+	Id                        int                      `orm:"column(id_registro_cultivo);pk;auto"`
+	FkTipoArroz               *TipoArroz               `orm:"column(fk_tipo_arroz);rel(fk)"`
+	Id_Arrendamiento          int                      `orm:"column(id_arrendamiento);null"` //se asocia al arrendamiento
+	Id_Parcela                int                      `orm:"column(id_parcela)"`            //se asocia a la parcela
+	Nombre                    string                   `orm:"column(nombre)"`
+	FechaSiembra              time.Time                `orm:"column(fecha_siembra);type(date)"`
+	CicloDias                 float64                  `orm:"column(ciclo_dias)"`
+	FkEstadoFenologicoCultivo *EstadoFenologicoCultivo `orm:"column(fk_estado_fenologico_cultivo);rel(fk)"`
+	FkMetodoSiembra           *MetodoSiembra           `orm:"column(fk_metodo_siembra);rel(fk)"`
+	AreaSembrada              float64                  `orm:"column(area_sembrada)"`
+	Activo                    bool                     `orm:"column(activo)"`
+	FechaCreacion             time.Time                `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion         time.Time                `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id_Usuario                int                      `orm:"column(id_usuario)"`
 }
 
 func (t *RegistroCultivo) TableName() string {

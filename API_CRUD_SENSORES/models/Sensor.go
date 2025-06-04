@@ -11,13 +11,15 @@ import (
 )
 
 type Sensor struct {
-	Id                int         `orm:"column(id_sensor);pk"`
-	NombreSensor      string      `orm:"column(nombre_sensor)"`
-	FkTipoSensor      *TipoSensor `orm:"column(fk_tipo_sensor);rel(fk)"`
-	Activo            bool        `orm:"column(activo)"`
-	FechaInstalacion  time.Time   `orm:"column(fecha_instalacion);type(timestamp with time zone)"`
-	FechaCreacion     time.Time   `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time   `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	Id                  int         `orm:"column(id_sensor);pk;auto"`
+	FkTipoSensor        *TipoSensor `orm:"column(fk_tipo_sensor);rel(fk)"`
+	FkCultivo           int         `orm:"column(fk_cultivo)"`
+	Activo              bool        `orm:"column(activo)"`
+	FechaInstalacion    time.Time   `orm:"column(fecha_instalacion);type(timestamp with time zone);auto_now_add"`
+	FechaCreacion       time.Time   `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion   time.Time   `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FkUsuario           int         `orm:"column(fk_usuario)"`
+	IdentificadorSensor string      `orm:"column(identificador_sensor)"`
 }
 
 func (t *Sensor) TableName() string {

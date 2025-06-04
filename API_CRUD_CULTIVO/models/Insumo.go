@@ -11,12 +11,15 @@ import (
 )
 
 type Insumo struct {
-	Id                       int                     `orm:"column(id_insumo);pk; auto"`
+	Id                       int                     `orm:"column(id_insumo);pk;auto"`
 	FkRegistroCultivo        *RegistroCultivo        `orm:"column(fk_registro_cultivo);rel(fk)"`
 	FkTipoInsumo             *TipoInsumo             `orm:"column(fk_tipo_insumo);rel(fk)"`
 	FkCategoriaInsumo        *CategoriaInsumo        `orm:"column(fk_categoria_insumo);rel(fk)"`
 	FkMetodoAplicacionInsumo *MetodoAplicacionInsumo `orm:"column(fk_metodo_aplicacion_insumo);rel(fk)"`
 	NombreInsumo             string                  `orm:"column(nombre_insumo)"`
+	FechaAplicacion          time.Time               `orm:"column(fecha_aplicacion);type(date)"`
+	CantidadAplicada         float64                 `orm:"column(cantidad_aplicada)"`
+	Observaciones            string                  `orm:"column(observaciones);"`
 	Activo                   bool                    `orm:"column(activo)"`
 	FechaCreacion            time.Time               `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
 	FechaModificacion        time.Time               `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
@@ -34,9 +37,11 @@ func init() {
 // last inserted Id on success.
 func AddInsumo(m *Insumo) (id int64, err error) {
 	o := orm.NewOrm()
+
 	if !m.Activo {
 		m.Activo = true
 	}
+
 	id, err = o.Insert(m)
 	return
 }

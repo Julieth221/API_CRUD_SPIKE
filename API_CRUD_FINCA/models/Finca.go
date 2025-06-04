@@ -16,8 +16,8 @@ type Finca struct {
 	Nombre            string     `orm:"column(nombre)"`
 	AreaTotal         float64    `orm:"column(area_total)"`
 	TotalParcelas     float64    `orm:"column(total_parcelas)"`
-	TamañoParcelas    float64    `orm:"column(tamaño_parcelas)"`
-	Id_Usuario        int        `orm:"column(id_usuario);null"`
+	TamañoParcelas    float64    `orm:"column(tamaño_parcelas);null"`
+	Id_Usuario        int        `orm:"column(id_usuario)"`
 	Activo            bool       `orm:"column(activo)"`
 	FechaCreacion     time.Time  `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
 	FechaModificacion time.Time  `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`

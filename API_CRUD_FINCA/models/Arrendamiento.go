@@ -11,16 +11,15 @@ import (
 )
 
 type Arrendamiento struct {
-	Id                       int               `orm:"column(id_arrendamiento);pk"`
-	FkArrendamientoFinca     *Finca            `orm:"column(fk_arrendamiento_finca);rel(fk)"`
-	FkArrendatamientoParcela *Parcela          `orm:"column(fk_arrendatamiento_parcela);rel(fk)"`
-	FechaInicio              time.Time         `orm:"column(fecha_inicio);type(date)"`
-	FechaFin                 time.Time         `orm:"column(fecha_fin);type(date)"`
-	Valor                    string            `orm:"column(valor);null"`
-	Activo                   bool              `orm:"column(activo)"`
-	FechaCreacion            time.Time         `orm:"column(fecha_creacion);type(timestamp with time zone)"`
-	FechaModificacion        time.Time         `orm:"column(fecha_modificacion);type(timestamp with time zone)"`
-	IdUserUserArrendatario   *UserArrendatario `orm:"column(id_user_User_Arrendatario);rel(fk)"`
+	Id                      int               `orm:"column(id_arrendamiento);pk;auto"`
+	FkArrendamientoFinca    *Finca            `orm:"column(fk_arrendamiento_finca);rel(fk)"`
+	Activo                  *bool             `orm:"column(activo)"`
+	FechaInicio             time.Time         `orm:"column(fecha_inicio);type(date)"`
+	FechaFin                time.Time         `orm:"column(fecha_fin);type(date)"`
+	FechaCreacion           time.Time         `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion       time.Time         `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	IdUserUserArrendatario  *UserArrendatario `orm:"column(id_user_User_Arrendatario);rel(fk)"`
+	FkArrendamientoAnterior *Arrendamiento    `orm:"column(fk_arr_anterior);rel(fk);null"` // Referencia al arrendamiento anterior permite que el seguimiento del cultivo se continue, vinculando ambos arrendamientos
 }
 
 func (t *Arrendamiento) TableName() string {
@@ -35,6 +34,10 @@ func init() {
 // last inserted Id on success.
 func AddArrendamiento(m *Arrendamiento) (id int64, err error) {
 	o := orm.NewOrm()
+	if m.Activo == nil {
+		val := true
+		m.Activo = &val
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -44,7 +47,7 @@ func AddArrendamiento(m *Arrendamiento) (id int64, err error) {
 func GetArrendamientoById(id int) (v *Arrendamiento, err error) {
 	o := orm.NewOrm()
 	v = &Arrendamiento{Id: id}
-	if err = o.Read(v); err == nil {
+	if err = o.QueryTable(new(Arrendamiento)).Filter("Id", id).RelatedSel().One(v); err == nil {
 		return v, nil
 	}
 	return nil, err
@@ -55,7 +58,7 @@ func GetArrendamientoById(id int) (v *Arrendamiento, err error) {
 func GetAllArrendamiento(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Arrendamiento))
+	qs := o.QueryTable(new(Arrendamiento)).RelatedSel()
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -133,6 +136,13 @@ func GetAllArrendamiento(query map[string]string, fields []string, sortby []stri
 func UpdateArrendamientoById(m *Arrendamiento) (err error) {
 	o := orm.NewOrm()
 	v := Arrendamiento{Id: m.Id}
+	if m.Activo != nil {
+		// Usar el valor proporcionado
+	} else {
+		val := true
+		m.Activo = &val
+
+	}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
