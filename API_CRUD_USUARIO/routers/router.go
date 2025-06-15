@@ -39,6 +39,12 @@ func init() {
 				&controllers.RolesUsuarioController{},
 			),
 		),
+
+		beego.NSNamespace("/tipo_documento",
+			beego.NSInclude(
+				&controllers.TipoDocumentoController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

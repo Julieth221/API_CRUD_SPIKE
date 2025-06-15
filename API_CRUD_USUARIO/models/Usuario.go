@@ -11,17 +11,17 @@ import (
 )
 
 type Usuario struct {
-	Id       int    `orm:"column(id_Usuario);pk;auto"`
-	Nombre   string `orm:"column(nombre)"`
-	Apellido string `orm:"column(apellido)"`
-	Contacto string `orm:"column(contacto)"`
-	// TipoDeDocumento   string        `orm:"column(tipo_documento)"`
-	// NumeroDeDocumento string        `orm:"column(numero_documento)"`
-	CorreoElectronico string        `orm:"column(correo_electronico)"`
-	Activo            bool          `orm:"column(activo)"`
-	FechaCreacion     time.Time     `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time     `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
-	FkCredencial      *Credenciales `orm:"column(fk_credencial);rel(fk)"`
+	Id                int            `orm:"column(id_Usuario);pk;auto"`
+	Nombre            string         `orm:"column(nombre)"`
+	Apellido          string         `orm:"column(apellido)"`
+	Contacto          string         `orm:"column(contacto)"`
+	TipoDocumento     *TipoDocumento `orm:"column(tipo_documento);rel(fk)"`
+	NumeroDocumento   string         `orm:"column(numero_documento)"`
+	CorreoElectronico string         `orm:"column(correo_electronico)"`
+	Activo            bool           `orm:"column(activo)"`
+	FechaCreacion     time.Time      `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time      `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FkCredencial      *Credenciales  `orm:"column(fk_credencial);rel(fk)"`
 }
 
 func (t *Usuario) TableName() string {
