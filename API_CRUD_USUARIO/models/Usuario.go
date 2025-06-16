@@ -11,10 +11,12 @@ import (
 )
 
 type Usuario struct {
-	Id                int           `orm:"column(id_Usuario);pk;auto"`
-	Nombre            string        `orm:"column(nombre)"`
-	Apellido          string        `orm:"column(apellido)"`
-	Contacto          string        `orm:"column(contacto)"`
+	Id       int    `orm:"column(id_Usuario);pk;auto"`
+	Nombre   string `orm:"column(nombre)"`
+	Apellido string `orm:"column(apellido)"`
+	Contacto string `orm:"column(contacto)"`
+	// TipoDeDocumento   string        `orm:"column(tipo_documento)"`
+	// NumeroDeDocumento string        `orm:"column(numero_documento)"`
 	CorreoElectronico string        `orm:"column(correo_electronico)"`
 	Activo            bool          `orm:"column(activo)"`
 	FechaCreacion     time.Time     `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
@@ -135,6 +137,9 @@ func GetAllUsuario(query map[string]string, fields []string, sortby []string, or
 func UpdateUsuarioById(m *Usuario) (err error) {
 	o := orm.NewOrm()
 	v := Usuario{Id: m.Id}
+	if !m.Activo {
+		m.Activo = true
+	}
 	// ascertain id exists in the database
 	if err = o.QueryTable(new(Usuario)).RelatedSel().Filter("Id", m.Id).One(&v); err == nil {
 		var num int64
