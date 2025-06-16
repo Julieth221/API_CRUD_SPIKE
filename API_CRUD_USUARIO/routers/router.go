@@ -8,7 +8,7 @@
 package routers
 
 import (
-	"github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers"
+	"github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_USUARIO/controllers"
 
 	"github.com/astaxie/beego"
 )
@@ -37,6 +37,12 @@ func init() {
 		beego.NSNamespace("/Roles_Usuario",
 			beego.NSInclude(
 				&controllers.RolesUsuarioController{},
+			),
+		),
+
+		beego.NSNamespace("/tipo_documento",
+			beego.NSInclude(
+				&controllers.TipoDocumentoController{},
 			),
 		),
 	)

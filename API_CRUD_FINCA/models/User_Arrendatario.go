@@ -15,6 +15,8 @@ type UserArrendatario struct {
 	Nombre            string    `orm:"column(nombre)"`
 	Contacto          string    `orm:"column(contacto)"`
 	Id_Usuario        int       `orm:"column(id_usuario_sistem)"`
+	TipoDocumento     int       `orm:"column(tipo_documento)"`
+	NumeroDocumento   string    `orm:"column(numero_documento)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
 	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone);auto_now"`
