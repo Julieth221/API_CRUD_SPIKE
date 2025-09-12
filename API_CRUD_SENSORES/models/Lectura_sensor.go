@@ -11,13 +11,13 @@ import (
 )
 
 type LecturaSensor struct {
-	Id                int       `orm:"column(id_lectura_sensor);pk;auto"`
+	Id                int       `orm:"column(id_lectura_sensor);pk"`
 	FechaLectura      time.Time `orm:"column(fecha_lectura);type(timestamp with time zone)"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	DatosSensor       string    `orm:"column(datos_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
 	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *LecturaSensor) TableName() string {

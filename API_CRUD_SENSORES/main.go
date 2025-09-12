@@ -2,11 +2,13 @@ package main
 
 import (
 	"github.com/astaxie/beego/plugins/cors"
-	_ "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES/routers"
+	// _ "github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES/routers"
 	"github.com/udistrital/utils_oas/customerrorv2"
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	// "github.com/udistrital/utils_oas/customerrorv2"
+
 	_ "github.com/lib/pq"
 )
 

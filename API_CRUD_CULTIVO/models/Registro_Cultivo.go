@@ -20,7 +20,6 @@ type RegistroCultivo struct {
 	CicloDias                 float64                  `orm:"column(ciclo_dias)"`
 	FkEstadoFenologicoCultivo *EstadoFenologicoCultivo `orm:"column(fk_estado_fenologico_cultivo);rel(fk)"`
 	FkMetodoSiembra           *MetodoSiembra           `orm:"column(fk_metodo_siembra);rel(fk)"`
-	DensidadSiembra           float64                  `orm:"column(densidad_siembra);null"`
 	AreaSembrada              float64                  `orm:"column(area_sembrada)"`
 	Activo                    bool                     `orm:"column(activo)"`
 	FechaCreacion             time.Time                `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`

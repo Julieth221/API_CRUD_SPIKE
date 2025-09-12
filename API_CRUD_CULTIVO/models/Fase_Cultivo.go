@@ -30,7 +30,6 @@ func init() {
 // last inserted Id on success.
 func AddFaseCultivo(m *FaseCultivo) (id int64, err error) {
 	o := orm.NewOrm()
-
 	if !m.Activo {
 		m.Activo = true
 	}

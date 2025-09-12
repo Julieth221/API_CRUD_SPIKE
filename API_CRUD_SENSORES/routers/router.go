@@ -8,7 +8,7 @@
 package routers
 
 import (
-	"github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES/controllers"
+	"github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_SENSORES/controllers"
 
 	"github.com/astaxie/beego"
 )
@@ -28,15 +28,15 @@ func init() {
 			),
 		),
 
-		beego.NSNamespace("/Alertas_historial",
-			beego.NSInclude(
-				&controllers.AlertasHistorialController{},
-			),
-		),
-
 		beego.NSNamespace("/Sensor",
 			beego.NSInclude(
 				&controllers.SensorController{},
+			),
+		),
+
+		beego.NSNamespace("/Alertas_historial",
+			beego.NSInclude(
+				&controllers.AlertasHistorialController{},
 			),
 		),
 

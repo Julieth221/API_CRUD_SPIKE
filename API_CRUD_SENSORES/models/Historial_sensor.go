@@ -11,13 +11,13 @@ import (
 )
 
 type HistorialSensor struct {
-	Id                int       `orm:"column(id_historial_sensor);pk;auto"`
+	Id                int       `orm:"column(id_historial_sensor);pk"`
 	ValorSensor       string    `orm:"column(valor_sensor);type(json)"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaRegistro     time.Time `orm:"column(fecha_registro);type(timestamp with time zone);auto_now_add"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
+	FechaRegistro     time.Time `orm:"column(fecha_registro);type(timestamp with time zone)"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone); auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone); auto_now"`
 }
 
 func (t *HistorialSensor) TableName() string {

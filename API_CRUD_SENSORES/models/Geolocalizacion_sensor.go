@@ -11,7 +11,7 @@ import (
 )
 
 type GeolocalizacionSensor struct {
-	Id                int       `orm:"column(id_geolocalizacion_sensor);pk;auto"`
+	Id                int       `orm:"column(id_geolocalizacion_sensor);pk"`
 	Latitud           float64   `orm:"column(latitud)"`
 	Longitud          float64   `orm:"column(longitud)"`
 	Activo            bool      `orm:"column(activo)"`
@@ -31,11 +31,12 @@ func init() {
 // last inserted Id on success.
 func AddGeolocalizacionSensor(m *GeolocalizacionSensor) (id int64, err error) {
 	o := orm.NewOrm()
-
 	if !m.Activo {
 		m.Activo = true
 	}
-
+	if !m.Activo {
+		m.Activo = true
+	}
 	id, err = o.Insert(m)
 	return
 }
@@ -133,10 +134,6 @@ func GetAllGeolocalizacionSensor(query map[string]string, fields []string, sortb
 // the record to be updated doesn't exist
 func UpdateGeolocalizacionSensorById(m *GeolocalizacionSensor) (err error) {
 	o := orm.NewOrm()
-
-	if !m.Activo {
-		m.Activo = true
-	}
 	v := GeolocalizacionSensor{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {

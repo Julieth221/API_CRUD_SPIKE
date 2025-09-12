@@ -11,7 +11,7 @@ import (
 )
 
 type SensorGeolocalizacion struct {
-	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk;auto"`
+	Id                      int                    `orm:"column(id_sensor_tipo_sensor);pk"`
 	FkSensor                *Sensor                `orm:"column(fk_sensor);rel(fk)"`
 	FkGeolocalizacionSensor *GeolocalizacionSensor `orm:"column(fk_geolocalizacion_sensor);rel(fk)"`
 	Activo                  bool                   `orm:"column(activo)"`

@@ -11,7 +11,7 @@ import (
 )
 
 type AlertasHistorial struct {
-	Id                int       `orm:"column(id_alerta_historial);pk;auto"`
+	Id                int       `orm:"column(id_alerta_historial);pk"`
 	IdAlerta          *Alertas  `orm:"column(id_alerta);rel(fk)"`
 	FechaAlerta       time.Time `orm:"column(fecha_alerta);type(timestamp with time zone)"`
 	Activo            bool      `orm:"column(activo)"`
@@ -33,11 +33,9 @@ func init() {
 // last inserted Id on success.
 func AddAlertasHistorial(m *AlertasHistorial) (id int64, err error) {
 	o := orm.NewOrm()
-
 	if !m.Activo {
 		m.Activo = true
 	}
-
 	id, err = o.Insert(m)
 	return
 }

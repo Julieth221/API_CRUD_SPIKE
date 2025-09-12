@@ -6,7 +6,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES/models"
+	"github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_SENSORES/models"
 
 	"github.com/astaxie/beego"
 )
@@ -30,7 +30,7 @@ func (c *TipoSensorController) URLMapping() {
 // @Description create TipoSensor
 // @Param	body		body 	models.TipoSensor	true		"body for TipoSensor content"
 // @Success 201 {int} models.TipoSensor
-// @Failure 400 the request contains incorrect syntax
+// @Failure 403 body is empty
 // @router / [post]
 func (c *TipoSensorController) Post() {
 	var v models.TipoSensor
@@ -54,7 +54,7 @@ func (c *TipoSensorController) Post() {
 // @Description get TipoSensor by id
 // @Param	id		path 	string	true		"The key for staticblock"
 // @Success 200 {object} models.TipoSensor
-// @Failure 404 not found resource
+// @Failure 403 :id is empty
 // @router /:id [get]
 func (c *TipoSensorController) GetOne() {
 	idStr := c.Ctx.Input.Param(":id")
@@ -79,7 +79,7 @@ func (c *TipoSensorController) GetOne() {
 // @Param	limit	query	string	false	"Limit the size of result set. Must be an integer"
 // @Param	offset	query	string	false	"Start position of result set. Must be an integer"
 // @Success 200 {object} models.TipoSensor
-// @Failure 404 not found resource
+// @Failure 403
 // @router / [get]
 func (c *TipoSensorController) GetAll() {
 	var fields []string
@@ -142,7 +142,7 @@ func (c *TipoSensorController) GetAll() {
 // @Param	id		path 	string	true		"The id you want to update"
 // @Param	body		body 	models.TipoSensor	true		"body for TipoSensor content"
 // @Success 200 {object} models.TipoSensor
-// @Failure 400 the request contains incorrect syntax
+// @Failure 403 :id is not int
 // @router /:id [put]
 func (c *TipoSensorController) Put() {
 	idStr := c.Ctx.Input.Param(":id")
@@ -167,7 +167,7 @@ func (c *TipoSensorController) Put() {
 // @Description delete the TipoSensor
 // @Param	id		path 	string	true		"The id you want to delete"
 // @Success 200 {string} delete success!
-// @Failure 404 not found resource
+// @Failure 403 id is empty
 // @router /:id [delete]
 func (c *TipoSensorController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")

@@ -11,12 +11,12 @@ import (
 )
 
 type PruebaSensor struct {
-	Id                int       `orm:"column(id_prueba_sensor);pk;auto"`
+	Id                int       `orm:"column(id_prueba_sensor);pk"`
 	IdSensor          *Sensor   `orm:"column(id_sensor);rel(fk)"`
 	ResultadoSensor   string    `orm:"column(resultado_sensor);type(json)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);;auto_now_add"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);;auto_now"`
+	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp with time zone);auto_now_add"`
+	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp with time zone);auto_now"`
 }
 
 func (t *PruebaSensor) TableName() string {

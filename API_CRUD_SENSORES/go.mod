@@ -1,10 +1,11 @@
-module github.com/julieth221/API_CRUD_SPIKE/API_CRUD_SENSORES
+module github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_SENSORES
 
-go 1.23.1
+go 1.24.0
 
 require (
 	github.com/astaxie/beego v1.12.3
-	github.com/lib/pq v1.10.9
+	github.com/lib/pq v1.10.0
+	github.com/udistrital/utils_oas v0.0.0-20250114021635-46e1121b7d64
 )
 
 require (
@@ -12,8 +13,6 @@ require (
 	github.com/cespare/xxhash/v2 v2.1.1 // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO v0.0.0-20250326190140-11a2daed33fb // indirect
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO v0.0.0-20250326190140-11a2daed33fb // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.10.0 // indirect
@@ -21,7 +20,6 @@ require (
 	github.com/prometheus/common v0.21.0 // indirect
 	github.com/prometheus/procfs v0.6.0 // indirect
 	github.com/shiena/ansicolor v0.0.0-20200904210342-c7312218db18 // indirect
-	github.com/udistrital/utils_oas v0.0.0-20250114021635-46e1121b7d64 // indirect
 	golang.org/x/crypto v0.19.0 // indirect
 	golang.org/x/net v0.21.0 // indirect
 	golang.org/x/sys v0.17.0 // indirect

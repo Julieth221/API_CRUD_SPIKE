@@ -1,16 +1,10 @@
-module github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO
+module github.com/YAMITHSALC27/API_CRUD_SPIKE/API_CRUD_SPIKE/API_CRUD_CULTIVO
 
-go 1.23.1
-
-replace (
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_FINCA => ../API_CRUD_FINCA
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO => ../API_CRUD_USUARIO
-)
+go 1.24.0
 
 require (
 	github.com/astaxie/beego v1.12.3
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_FINCA v0.0.0-00010101000000-000000000000
-	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_USUARIO v0.0.0-00010101000000-000000000000
+	github.com/julieth221/API_CRUD_SPIKE/API_CRUD_CULTIVO v0.0.0-20250603200844-3bed27b53286
 	github.com/lib/pq v1.10.9
 	github.com/udistrital/utils_oas v0.0.0-20250114021635-46e1121b7d64
 )
